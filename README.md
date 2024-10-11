@@ -59,6 +59,10 @@ This repository contains my solutions and notes for the Educative's [Grokking Co
 4. [Reverse Alternating K-element Sub-List](./05-in-place-reversal-of-a-linked-list/04-reverse-alternating-k-element-sub-list.md)
 5. [Rotate a Linked List](./05-in-place-reversal-of-a-linked-list/05-rotate-a-linked-list.md)
 
+### Two Heaps
+
+1. [Find the Median of a Number Stream](./06-two-heaps/01-find-the-median-of-a-number-stream.md)
+
 ## Extra Material
 
 ### Youtube Channels

@@ -142,7 +142,7 @@ class MinHeap:
 
         # Bubble down the new root to restore the heap property
         self._bubble_down(0)
-        
+
         return min_value
 
     def peek(self):
@@ -189,7 +189,7 @@ class MinHeap:
             # Check if the left child exists and is smaller than the current element
             if left_child < len(self.heap) and self.heap[left_child] < self.heap[smallest]:
                 smallest = left_child
-            
+
             # Check if the right child exists and is smaller than the current smallest element
             if right_child < len(self.heap) and self.heap[right_child] < self.heap[smallest]:
                 smallest = right_child
@@ -207,3 +207,9 @@ class MinHeap:
         """
         self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
 ```
+
+## Problems
+
+|                                       Problem                                        |   Complexity    |
+| :----------------------------------------------------------------------------------: | :-------------: |
+| **[Find the Median of a Number Stream](./01-find-the-median-of-a-number-stream.md)** | :star2: :star2: |
