@@ -62,6 +62,7 @@ This repository contains my solutions and notes for the Educative's [Grokking Co
 ### Two Heaps
 
 1. [Find the Median of a Number Stream](./06-two-heaps/01-find-the-median-of-a-number-stream.md)
+2. [Sliding Window Median](./06-two-heaps/02-sliding-window-median.md)
 
 ## Extra Material
 

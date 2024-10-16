@@ -210,6 +210,7 @@ class MinHeap:
 
 ## Problems
 
-|                                       Problem                                        |   Complexity    |
-| :----------------------------------------------------------------------------------: | :-------------: |
-| **[Find the Median of a Number Stream](./01-find-the-median-of-a-number-stream.md)** | :star2: :star2: |
+|                                       Problem                                        |       Complexity        |
+| :----------------------------------------------------------------------------------: | :---------------------: |
+| **[Find the Median of a Number Stream](./01-find-the-median-of-a-number-stream.md)** |     :star2: :star2:     |
+|              **[Sliding Window Median](./02-sliding-window-median.md)**              | :star2: :star2: :star2: |
