@@ -1,69 +1,104 @@
-# Problem: Triplet Sum Close to Target
+---
+title: 3Sum Closest
+difficulty: 🟡 Medium
+tags:
+  - Array
+  - Two Pointers
+  - Sorting
+url: https://leetcode.com/problems/3sum-closest/
+---
 
-LeetCode problem: [16. 3Sum Closest](https://leetcode.com/problems/3sum-closest/).
+# 3Sum Closest
 
-Given an array of unsorted numbers and a target number, find a triplet in the array whose sum is as close to the target number as possible, return the sum of the triplet.
+## Problem Description
 
-If there are more than one such triplet, return the sum of the triplet with the smallest sum.
+Given an integer array `nums` of length `n` and an integer `target`, find three integers in `nums` such that the sum is closest to `target`.
+
+Return the sum of the three integers.
+
+You may assume that each input would have exactly one solution.
 
 ## Examples
 
-Example 1:
+**Example 1:**
 
 ```plaintext
-Input: [-2, 0, 1, 2], target = 2
-Output: 1
-Explanation: The triplet [-2, 1, 2] has the closest sum to the target.
+Input: nums = [-1,2,1,-4], target = 1
+Output: 2
+Explanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
 ```
 
-Example 2:
+**Example 2:**
 
 ```plaintext
-Input: [-3, -1, 1, 2], target = 1
+Input: nums = [0,0,0], target = 1
 Output: 0
-Explanation: The triplet [-3, 1, 2] has the closest sum to the target.
+Explanation: The sum that is closest to the target is 0. (0 + 0 + 0 = 0).
 ```
 
-Example 3:
+## Constraints
 
-```plaintext
-Input: [1, 0, 1, 1], target = 100
-Output: 3
-Explanation: The triplet [1, 1, 1] has the closest sum to the target.
-```
+- `3 <= nums.length <= 500`
+- `-1000 <= nums[i] <= 1000`
+- `-10^4 <= target <= 10^4`
 
 ## Solution
 
-This problem is quite similar to the [Triplet Sum to Zero](./04-triplet-sum-to-zero.md) problem.
+### Intuition
 
-First, we sort the array. Then, for each element, we use two pointers: one starting from the element after the current one, and the other from the end of the list. We calculate the difference between the sum of the triplet formed by these three elements and the target value while tracking the closest sum.
+Similar to 3Sum, but instead of finding exact matches, we track the closest sum. For each element, use two pointers to search for a pair that minimizes the distance to `target`.
 
-Complexity analysis:
+At each step:
 
-- Time complexity: O(N^2)
-- Space complexity: O(1)
+- If `current_sum < target`: move `left` right to increase the sum
+- If `current_sum > target`: move `right` left to decrease the sum
+- If `current_sum == target`: return immediately (can't get closer than 0)
+
+When two sums have the same distance, prefer the smaller sum.
+
+### Algorithm
+
+1. **Sort** the array
+2. Initialize `closest_sum` with infinity distance
+3. For each index `i`:
+   - Use two pointers (`left`, `right`) to find pairs
+   - Update `closest_sum` if current sum is closer, or same distance but smaller
+   - Move pointers based on whether current sum is less or greater than target
+4. Return `closest_sum`
+
+### Complexity Analysis
+
+- **Time Complexity:** $O(n^2)$ — Sorting plus nested two-pointer search.
+- **Space Complexity:** $O(1)$ — Only constant extra space (excluding sorting).
 
 ```python
-def threeSumClosest(nums: List[int], target: int) -> int:
-    nums.sort()
-    closest = float('inf')
-    
-    for i in range(len(nums)):
-        j = i + 1
-        k = len(nums) - 1
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        closest_sum = float('inf')
 
-        while j < k:
-            diff = target - (nums[i] + nums[j] + nums[k])
-            
-            if abs(diff) < abs(closest):
-                closest = diff
-            
-            if diff > 0:
-                j += 1 # we need a triplet with bigger sum
-            elif diff < 0:
-                k -= 1 # we need a triplet with smaller sum
-            else:
-                return target - closest
+        for i in range(len(nums) - 2):
+            left = i + 1
+            right = len(nums) - 1
 
-    return target - closest
+            while left < right:
+                current_sum = nums[i] + nums[left] + nums[right]
+
+                current_distance = abs(current_sum - target)
+                closest_distance = abs(closest_sum - target)
+
+                current = (current_distance, current_sum)
+                closest = (closest_distance, closest_sum)
+
+                if current < closest:
+                    closest_sum = current_sum
+
+                if current_sum == target:
+                    return current_sum
+                elif current_sum < target:
+                    left += 1
+                else:
+                    right -= 1
+
+        return closest_sum
 ```
