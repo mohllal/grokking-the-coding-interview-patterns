@@ -1,6 +1,6 @@
 # Grokking Coding Interview Patterns
 
-This repository contains my solutions and notes for the Educative's [Grokking Coding Interview Patterns in Python](https://www.educative.io/courses/grokking-coding-interview-patterns-python) course.
+This repository contains my solutions and notes for the Design Gurus's [Grokking the Coding Interview: Patterns for Coding Questions](https://www.designgurus.io/course/grokking-the-coding-interview) course.
 
 ## Patterns
 
@@ -66,26 +66,9 @@ This repository contains my solutions and notes for the Educative's [Grokking Co
 
 ## Extra Material
 
-### Youtube Channels
-
-- [Neetcode](https://www.youtube.com/@NeetCode)
-- [HappyCoding](https://www.youtube.com/@happycoding1093)
-- [Geekific](https://www.youtube.com/@geekific/)
-
 ### Problem Lists
 
 - [Blind 75 List](leetcode.com/problem-list/ar2zuiqj/)
 - [Grind 75 List](leetcode.com/problem-list/ar2s2fi2/)
 - [Grind 169 List](https://leetcode.com/problem-list/ar244hmv/)
 - [NeetCode 150](https://leetcode.com/problem-list/ar21vm0r/)
-
-### Courses
-
-- [Educative - Grokking Coding Interview Patterns in Python](https://www.educative.io/courses/grokking-coding-interview-patterns-python)
-- [Design Gurus - Grokking the Coding Interview: Patterns for Coding Questions](https://www.designgurus.io/course/grokking-the-coding-interview)
-- [Design Gurus - Grokking Dynamic Programming Patterns for Coding Interviews](https://www.designgurus.io/course/grokking-dynamic-programming)
-
-### Miscellaneous
-
-- [NeetCode](https://neetcode.io/)
-- [Tech Interview Handbook](https://www.techinterviewhandbook.org/)
