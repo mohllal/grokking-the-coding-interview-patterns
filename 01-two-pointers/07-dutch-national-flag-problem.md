@@ -1,84 +1,87 @@
-# Problem: Dutch National Flag Problem
+---
+title: Sort Colors
+difficulty: 🟡 Medium
+tags:
+  - Array
+  - Two Pointers
+  - Sorting
+url: https://leetcode.com/problems/sort-colors/
+---
 
-LeetCode problem: [75. Sort Colors](https://leetcode.com/problems/sort-colors/).
+# Sort Colors (Dutch National Flag)
 
-Given an array containing 0s, 1s and 2s, sort the array in-place. You should treat numbers of the array as objects, hence, we can’t count 0s, 1s, and 2s to recreate the array.
+## Problem Description
 
-The flag of the Netherlands consists of three colors: red, white and blue; and since our input array also consists of three different numbers that is why it is called [Dutch National Flag problem](https://en.wikipedia.org/wiki/Dutch_national_flag_problem).
+Given an array `nums` with `n` objects colored red, white, or blue, sort them **in-place** so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
+
+We will use the integers `0`, `1`, and `2` to represent the color red, white, and blue, respectively.
+
+You must solve this problem without using the library's sort function.
 
 ## Examples
 
-Example 1:
+**Example 1:**
 
 ```plaintext
-Input: [1, 0, 2, 1, 0]
-Output: [0 0 1 1 2]
+Input: nums = [2,0,2,1,1,0]
+Output: [0,0,1,1,2,2]
 ```
 
-Example 2:
+**Example 2:**
 
 ```plaintext
-Input: [2, 2, 0, 1, 2, 0]
-Output: [0 0 1 2 2 2 ]
+Input: nums = [2,0,1]
+Output: [0,1,2]
 ```
 
-## Solution 1
+## Constraints
 
-The algorithm sorts an array containing `0`s (red), `1`s (white), and `2`s (blue) by making two passes. The first pass moves all `0`s to the front, and the second pass moves all `2`s to the end. The `1`s naturally fall into place between the `0`s and `2`s.
+- `n == nums.length`
+- `1 <= n <= 300`
+- `nums[i]` is either `0`, `1`, or `2`.
 
-Complexity analysis:
+**Follow up:** Could you come up with a one-pass algorithm using only constant extra space?
 
-- Time complexity: O(N) - two-pass algorithm
-- Space complexity: O(1)
+## Solution
 
-```python
-def sortColors(nums: List[int]) -> None:
-    last_red = 0
-    for i in range(len(nums)):
-        if nums[i] == 0:
-            nums[last_red], nums[i] = nums[i], nums[last_red]
-            last_red += 1
-            
-    last_blue = len(nums) - 1
-    for i in range(len(nums) - 1, -1, -1):
-        if nums[i] == 2:
-            nums[last_blue], nums[i] = nums[i], nums[last_blue]
-            last_blue -= 1
-  
-    return nums
-```
+### Intuition
 
-## Solution 2
+The [Dutch National Flag problem](https://en.wikipedia.org/wiki/Dutch_national_flag_problem) uses three pointers to partition the array into three sections:
 
-The algorithm uses three pointers:
+- `[0, red)`: all 0s (red)
+- `[red, white)`: all 1s (white)  
+- `(blue, n-1]`: all 2s (blue)
 
-1. `red` to track the position for `0`s.
-2. `blue` to track the position for `2`s.
-3. `current` for traversing the array
+The `white` pointer scans through, swapping elements to their correct sections.
 
-During iteration, `0`s are swapped to the front (before `red` pointer), `2`s are swapped to the back (after `blue` pointer), and `1`s are left in place.
+### Algorithm
 
-Complexity analysis:
+1. Initialize `red = 0`, `white = 0`, `blue = n - 1`
+2. While `white <= blue`:
+   - If `nums[white] == 0`: swap with `red`, increment both `red` and `white`
+   - If `nums[white] == 2`: swap with `blue`, decrement `blue` (don't increment `white` — swapped element needs checking)
+   - If `nums[white] == 1`: just increment `white`
 
-- Time complexity: O(N) - one-pass algorithm
-- Space complexity: O(1)
+### Complexity Analysis
+
+- **Time Complexity:** $O(n)$ — Single pass through the array.
+- **Space Complexity:** $O(1)$ — In-place sorting with three pointers.
 
 ```python
-def sortColors(nums: List[int]) -> None:
-    red = 0
-    white = 0
-    blue = len(nums) - 1
-    
-    while white <= blue:
-        if nums[white] == 0:
-            nums[white], nums[red] = nums[red], nums[white]
-            white += 1
-            red += 1
-        elif nums[white] == 2:
-            nums[white], nums[blue] = nums[blue], nums[white]
-            blue -= 1
-        else:
-            white += 1
-            
-    return nums
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        red = 0
+        white = 0
+        blue = len(nums) - 1
+        
+        while white <= blue:
+            if nums[white] == 0:
+                nums[white], nums[red] = nums[red], nums[white]
+                white += 1
+                red += 1
+            elif nums[white] == 2:
+                nums[white], nums[blue] = nums[blue], nums[white]
+                blue -= 1
+            else:
+                white += 1
 ```

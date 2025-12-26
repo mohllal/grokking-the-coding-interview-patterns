@@ -1,78 +1,123 @@
-# Problem: Quadruple Sum to Target
+---
+title: 4Sum
+difficulty: 🟡 Medium
+tags:
+  - Array
+  - Two Pointers
+  - Sorting
+url: https://leetcode.com/problems/4sum/
+---
 
-LeetCode problem: [18. 4Sum](https://leetcode.com/problems/4sum/).
+# 4Sum
 
-Given an array of unsorted numbers and a target number, find all unique quadruplets in it, whose sum is equal to the target number.
+## Problem Description
+
+Given an array `nums` of `n` integers, return an array of all the **unique** quadruplets `[nums[a], nums[b], nums[c], nums[d]]` such that:
+
+- `0 <= a, b, c, d < n`
+- `a`, `b`, `c`, and `d` are **distinct**.
+- `nums[a] + nums[b] + nums[c] + nums[d] == target`
+
+You may return the answer in **any order**.
 
 ## Examples
 
-Example 1:
+**Example 1:**
 
 ```plaintext
-Input: [4, 1, 2, -1, 1, -3], target=1
-Output: [-3, -1, 1, 4], [-3, 1, 1, 2]
-Explanation: Both the quadruplets add up to the target.
+Input: nums = [1,0,-1,0,-2,2], target = 0
+Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
 ```
 
-Example 2:
+**Example 2:**
 
 ```plaintext
-Input: [2, 0, -1, 1, -2, 2], target=2
-Output: [-2, 0, 2, 2], [-1, 0, 1, 2]
-Explanation: Both the quadruplets add up to the target.
+Input: nums = [2,2,2,2,2], target = 8
+Output: [[2,2,2,2]]
 ```
+
+## Constraints
+
+- `1 <= nums.length <= 200`
+- `-10^9 <= nums[i] <= 10^9`
+- `-10^9 <= target <= 10^9`
 
 ## Solution
 
-This problem is quite similar to the [Triplet Sum to Zero](./04-triplet-sum-to-zero.md) problem.
+### Intuition
 
-The algorithm uses two nested loops to select the first two numbers of the quadruplet and a two-pointer approach to search for the remaining two numbers.
+Extends the [3Sum](./04-triplet-sum-to-zero.md) approach with an additional outer loop. Two nested loops fix the first two elements, then use two pointers to find the remaining pair.
 
-Complexity analysis:
+Skip duplicates at each level to avoid duplicate quadruplets.
 
-- Time complexity: O(N^3)
-- Space complexity: O(N^4)
+### Algorithm
 
-Why space complexity is O(N^4)?
-Refer back to the space complexity analysis of the [Triplets with Smaller Sum](./06-triplets-with-smaller-sum.md#Similar-Problem) for more information about this except that it is now the upper bound determined the the binomial coefficient formula $\binom{N}{4} = \frac{N!}{4!(N - 4)!}$.
+1. **Sort** the array
+2. For each index `i`:
+   - Skip duplicates
+   - For each index `j > i`:
+     - Skip duplicates
+     - Use two pointers (`left`, `right`) to find pairs where sum equals `target - nums[i] - nums[j]`
+     - When found, add quadruplet and skip duplicates for both pointers
+3. Return all quadruplets
+
+### Complexity Analysis
+
+- **Time Complexity:** $O(n^3)$ — Two nested loops plus two-pointer search.
+- **Space Complexity:** $O(n^3)$
+
+#### Why space complexity is $O(n^3)$?
+
+When including the output, the result list has **$O(n^3)$** space complexity due to the number of valid quadruplets it may store.
+
+- The algorithm itself uses only constant extra space (pointers and loop variables).
+- Two indices (`i`, `j`) are fixed first, giving **$O(n^2)$** combinations.
+- For each `(i, j)` pair, there can be up to **$O(n)$** valid `(left, right)` pairs.
+- Each valid combination produces a distinct quadruplet that must be stored.
+
+Therefore, the total number of stored quadruplets in the worst case is:
+
+$O(n^2) \times O(n) = O(n^3)$
 
 ```python
-# O(N) time and O(1) space
-def searchPair(nums, i, j, quadruplets):
-    left = j + 1
-    right = len(nums) - 1
+class Solution:
+    def searchPair(self, nums: List[int], target: int, i: int, j: int, quadruplets: List[List[int]]) -> None:
+        left = j + 1
+        right = len(nums) - 1
 
-    while left < right:
-        total = nums[i] + nums[j] + nums[left] + nums[right]
+        while left < right:
+            current = nums[i] + nums[j] + nums[left] + nums[right]
 
-        if total < target:
-            left += 1
-        elif total > target:
-            right -= 1
-        else:
-            quadruplets.append([nums[i], nums[j], nums[left], nums[right]])
-            left += 1
-            right -= 1
-            
-            while left < right and nums[left] == nums[left - 1]:
+            if current < target:
                 left += 1
+            elif current > target:
+                right -= 1
+            else:
+                quadruplets.append([nums[i], nums[j], nums[left], nums[right]])
+                left += 1
+                right -= 1
                 
-            while left < right and nums[right] == nums[right + 1]:
-                right -= 1    
+                # Skip duplicate values for left pointer
+                while left < right and nums[left] == nums[left - 1]:
+                    left += 1
+                    
+                # Skip duplicate values for right pointer
+                while left < right and nums[right] == nums[right + 1]:
+                    right -= 1
 
-def fourSum(nums: List[int], target: int) -> List[List[int]]:
-    quadruplets = []
-    nums.sort()            
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        nums.sort()
+        quadruplets = []
 
-    for i in range(len(nums) - 3):
-        if i > 0 and nums[i] == nums[i - 1]:
-            continue
-
-        for j in range(i + 1, len(nums) - 2):
-            if j > i + 1 and nums[j] == nums[j - 1]:
+        for i in range(len(nums) - 3):
+            if i > 0 and nums[i] == nums[i - 1]:
                 continue
 
-            searchPair(nums, i, j, quadruplets)
-    
-    return quadruplets
+            for j in range(i + 1, len(nums) - 2):
+                if j > i + 1 and nums[j] == nums[j - 1]:
+                    continue
+
+                self.searchPair(nums, target, i, j, quadruplets)
+        
+        return quadruplets
 ```

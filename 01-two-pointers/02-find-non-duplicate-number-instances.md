@@ -82,9 +82,13 @@ class Solution:
 
 ---
 
-## Similar Problem: Remove Element
+## Similar Problem
 
-LeetCode problem: [27. Remove Element](https://leetcode.com/problems/remove-element/)
+| title          | difficulty | tags                 | url                                              |
+| -------------- | :--------: | -------------------- | ------------------------------------------------ |
+| Remove Element | 🟢 Easy    | Array, Two Pointers  | <https://leetcode.com/problems/remove-element/>  |
+
+### Problem Description
 
 Given an integer array `nums` and an integer `val`, remove all occurrences of `val` in-place and return the new length.
 

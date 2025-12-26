@@ -76,7 +76,7 @@ Reduce the 3Sum problem to multiple 2Sum problems. For each element `X`, find pa
 
 ```python
 class Solution:
-    def search_pair(self, nums, target, left, triplets):
+    def searchPair(self, nums: List[int], target: int, left: int, triplets: List[List[int]]) -> None:
         right = len(nums) - 1
 
         while left < right:
@@ -85,12 +85,12 @@ class Solution:
             if current == target:
                 triplets.append([-target, nums[left], nums[right]])
 
-                # skip duplicate values for left pointer
+                # Skip duplicate values for left pointer
                 left += 1
                 while left < right and nums[left] == nums[left - 1]:
                     left += 1
                 
-                # skip duplicate values for right pointer
+                # Skip duplicate values for right pointer
                 right -= 1
                 while left < right and nums[right] == nums[right + 1]:
                     right -= 1
@@ -107,7 +107,7 @@ class Solution:
             if i > 0 and nums[i] == nums[i - 1]:
                 continue
             
-            self.search_pair(nums, -nums[i], i + 1, triplets)
+            self.searchPair(nums, -nums[i], i + 1, triplets)
 
         return triplets
 ```

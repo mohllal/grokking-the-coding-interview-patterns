@@ -61,7 +61,7 @@ Key insight: In a sorted array, if `nums[i] + nums[left] + nums[right] < target`
 1. **Sort** the array
 2. For each index `i`:
    - Early exit if `nums[i] >= target`
-   - Call `search_pair` to count valid pairs using two pointers
+   - Count valid pairs using two pointers
    - If `current >= target`: decrement `right`
    - If `current < target`:
      - Add `(right - left)` to count (all pairs between `left` and `right` are valid)
@@ -75,7 +75,7 @@ Key insight: In a sorted array, if `nums[i] + nums[left] + nums[right] < target`
 
 ```python
 class Solution:
-    def search_pair(self, nums, target, left):
+    def searchPair(self, nums: List[int], target: int, left: int) -> int:
         count = 0
         right = len(nums) - 1
 
@@ -85,7 +85,7 @@ class Solution:
             if current >= target:
                 right -= 1
             else:
-                # since nums[right] >= nums[left], we can replace nums[right] by any 
+                # Since `nums[right] >= nums[left]`, we can replace `nums[right]` by any 
                 # number between left and right to get a sum less than the target
                 count += (right - left)
                 left += 1
@@ -100,14 +100,20 @@ class Solution:
             if nums[i] >= target:
                 break
             
-            count += self.search_pair(nums, target - nums[i], i + 1)
+            count += self.searchPair(nums, target - nums[i], i + 1)
         
         return count
 ```
 
 ---
 
-## Similar Problem: Return All Triplets
+## Similar Problem
+
+| title                 | difficulty | tags                         |
+|-----------------------|:----------:|------------------------------|
+| 3Sum Smaller Triplets | 🟡 Medium  | Array, Two Pointers, Sorting |
+
+### Problem Description
 
 Write a function to return the **list** of all such triplets instead of the count.
 
@@ -119,14 +125,24 @@ Instead of counting, we record all valid triplets by iterating from `right` down
 
 #### Complexity Analysis
 
-- **Time Complexity:** $O(n^3)$ — In the worst case, we enumerate all triplets.
-- **Space Complexity:** $O(n^3)$ — For storing all valid triplets.
+- **Time Complexity:** $O(n^2)$ — In the worst case, we enumerate all triplets.
+- **Space Complexity:** $O(n^2)$ — For storing all valid triplets.
 
-Why $O(n^3)$? In the worst case, every possible combination of 3 elements forms a valid triplet. With `n` elements, we can pick 3 in roughly $\frac{n \times n \times n}{6}$ ways, which simplifies to $O(n^3)$.
+##### Why space complexity is $O(n^2)$?
+
+When including the output, the result list has **$O(n^2)$** space complexity because of the number of valid triplets it may store.
+
+- The algorithm itself uses only constant extra space (two pointers and loop variables).
+- For each fixed index `i` (**$O(n)$** choices), there can be up to **$O(n)$** valid `(left, right)` pairs.
+- Each valid pair produces a distinct triplet that must be stored.
+
+Therefore, the total number of stored triplets in the worst case is:
+
+$O(n) \times O(n) = O(n^2)$
 
 ```python
 class Solution:
-    def search_pair(self, nums, target, left, first, triplets):
+    def searchPair(self, nums: List[int], target: int, left: int, first: int, triplets: List[List[int]]) -> None:
         right = len(nums) - 1
 
         while left < right:
@@ -135,9 +151,10 @@ class Solution:
             if current >= target:
                 right -= 1
             else:
-                # record all valid triplets with current left
+                # Record all valid triplets with current left
                 for k in range(right, left, -1):
                     triplets.append([first, nums[left], nums[k]])
+
                 left += 1
 
     def threeSumSmaller(self, nums: List[int], target: int) -> List[List[int]]:
@@ -148,7 +165,7 @@ class Solution:
             if nums[i] >= target:
                 break
             
-            self.search_pair(nums, target - nums[i], i + 1, nums[i], triplets)
+            self.searchPair(nums, target - nums[i], i + 1, nums[i], triplets)
         
         return triplets
 ```

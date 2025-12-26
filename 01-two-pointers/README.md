@@ -66,15 +66,15 @@ Array: [-2, 0, 1, 3]      target = 2
 
 ## Problems
 
-|  #  | Problem                                                                                    | Difficulty |
-| :-: | :----------------------------------------------------------------------------------------- | :--------: |
-| 01  | [Pair with Target Sum](./01-pair-with-target-sum.md)                                       | 🟡 Medium  |
-| 02  | [Remove Duplicates](./02-find-non-duplicate-number-instances.md)                           | 🟢 Easy    |
-| 03  | [Squaring a Sorted Array](./03-squaring-a-sorted-array.md)                                 | 🟢 Easy    |
-| 04  | [3Sum](./04-triplet-sum-to-zero.md)                                                        | 🟡 Medium  |
-| 05  | [3Sum Closest](./05-triplet-sum-close-to-target.md)                                        | 🟡 Medium  |
-| 06  | [3Sum Smaller](./06-triplets-with-smaller-sum.md)                                          | 🟡 Medium  |
-| 07  | [Dutch National Flag Problem](./07-dutch-national-flag-problem.md)                         | 🟡 Medium  |
-| 08  | [Quadruple Sum to Target](./08-quadruple-sum-to-target.md)                                 | 🟡 Medium  |
-| 09  | [Comparing Strings Containing Backspaces](./09-comparing-strings-containing-backspaces.md) | 🟢 Easy    |
-| 10  | [Minimum Window Sort](./10-minimum-window-sort.md)                                         | 🔴 Hard    |
+|  #  | Problem                                                                                        | Difficulty |
+| :-: | :--------------------------------------------------------------------------------------------- | :--------: |
+| 01  | [Two Sum II](./01-pair-with-target-sum.md)                                                     | 🟡 Medium  |
+| 02  | [Find Non-Duplicate Number Instances](./02-find-non-duplicate-number-instances.md)             | 🟢 Easy    |
+| 03  | [Squaring a Sorted Array](./03-squaring-a-sorted-array.md)                                     | 🟢 Easy    |
+| 04  | [Triplet Sum to Zero](./04-triplet-sum-to-zero.md)                                             | 🟡 Medium  |
+| 05  | [Triplet Sum Close to Target](./05-triplet-sum-close-to-target.md)                             | 🟡 Medium  |
+| 06  | [Triplets with Smaller Sum](./06-triplets-with-smaller-sum.md)                                 | 🟡 Medium  |
+| 07  | [Dutch National Flag Problem](./07-dutch-national-flag-problem.md)                             | 🟡 Medium  |
+| 08  | [Quadruple Sum to Target](./08-quadruple-sum-to-target.md)                                     | 🟡 Medium  |
+| 09  | [Backspace String Compare](./09-comparing-strings-containing-backspaces.md)                    | 🟢 Easy    |
+| 10  | [Minimum Window Sort](./10-minimum-window-sort.md)                                             | 🟡 Medium  |

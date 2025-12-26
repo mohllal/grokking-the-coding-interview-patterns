@@ -1,130 +1,113 @@
-# Problem: Comparing Strings Containing Backspaces
+---
+title: Backspace String Compare
+difficulty: 🟢 Easy
+tags:
+  - Two Pointers
+  - String
+  - Stack
+  - Simulation
+url: https://leetcode.com/problems/backspace-string-compare/
+---
 
-LeetCode problem: [844. Backspace String Compare](https://leetcode.com/problems/backspace-string-compare/).
+# Backspace String Compare
 
-Given two strings containing backspaces (identified by the character `#`), check if the two strings are equal.
+## Problem Description
+
+Given two strings `s` and `t`, return `true` if they are equal when both are typed into empty text editors. `'#'` means a backspace character.
+
+Note that after backspacing an empty text, the text will continue empty.
 
 ## Examples
 
-Example 1:
+**Example 1:**
 
 ```plaintext
-Input: str1 = "xy#z", str2 = "xzz#"
+Input: s = "ab#c", t = "ad#c"
 Output: true
-Explanation: After applying backspaces the strings become "xz" and "xz" respectively.
+Explanation: Both s and t become "ac".
 ```
 
-Example 2:
+**Example 2:**
 
 ```plaintext
-Input: str1 = "xy#z", str2 = "xyz#"
+Input: s = "ab##", t = "c#d#"
+Output: true
+Explanation: Both s and t become "".
+```
+
+**Example 3:**
+
+```plaintext
+Input: s = "a#c", t = "b"
 Output: false
-Explanation: After applying backspaces the strings become "xz" and "xy" respectively.
+Explanation: s becomes "c" while t becomes "b".
 ```
 
-Example 3:
+## Constraints
 
-```plaintext
-Input: str1 = "xp#", str2 = "xyz##"
-Output: true
-Explanation: After applying backspaces the strings become "x" and "x" respectively.
-In "xyz##", the first '#' removes the character 'z' and the second '#' removes the character 'y'.
-```
+- `1 <= s.length, t.length <= 200`
+- `s` and `t` only contain lowercase letters and `'#'` characters.
 
-Example 4:
+**Follow up:** Can you solve it in `O(n)` time and `O(1)` space?
 
-```plaintext
-Input: str1 = "xywrrmp", str2 = "xywrrmu#p"
-Output: true
-Explanation: After applying backspaces the strings become "xywrrmp" and "xywrrmp" respectively.
-```
+## Solution
 
-## Solution 1
+### Intuition
 
-The algorithm builds both strings by skipping characters affected by backspaces (`#`). It then compares the two final strings, returning true if they are identical, or false if they differ.
+Instead of building new strings (which uses O(n) space), traverse both strings **from the end**. This way, we know exactly how many characters to skip when we encounter backspaces.
 
-Complexity analysis:
+### Algorithm
 
-- Time complexity: O(N+M)
-- Space complexity: O(N+M)
+1. Start two pointers at the end of each string
+2. For each string, find the next valid character by:
+   - Count consecutive `#` characters
+   - Skip that many non-`#` characters
+3. Compare the valid characters from both strings
+4. If they differ, or one string has remaining characters while the other doesn't, return `false`
+5. Move both pointers left and repeat
 
-Where `N` and `M` are the lengths of the two input strings respectively.
+### Complexity Analysis
+
+- **Time Complexity:** $O(n + m)$ — Each character is visited at most twice.
+- **Space Complexity:** $O(1)$ — Only pointers and counters.
 
 ```python
-# O(K) time and O(K) space
-# where K is the length of the string parameter
-def removeBackspaces(string: str) -> str:
-    string_new = ""
-    string_backspaces = 0
+class Solution:
+    def getNextValidIndex(self, string: str, index: int) -> int:
+        backspaces = 0
+        while index >= 0:
+            if string[index] == "#":
+                backspaces += 1
+            elif backspaces > 0:
+                backspaces -= 1
+            else:
+                break
+            index -= 1
 
-    current = len(string) - 1
-    while current >= 0:
-        if string[current] == "#":
-            string_backspaces += 1
-        elif string_backspaces > 0:
-            string_backspaces -= 1
-        else:
-            string_new += string[current]
+        return index
 
-        current -= 1
-    
-    return string_new[::-1]
+    def backspaceCompare(self, s: str, t: str) -> bool:
+        s_index = len(s) - 1
+        t_index = len(t) - 1
 
-def backspaceCompare(s: str, t: str) -> bool: 
-    s_new = removeBackspaces(s)
-    t_new = removeBackspaces(t)
-
-    return s_new == t_new
-```
-
-## Solution 2
-
-The algorithm uses two pointers to traverse the strings from the end to the beginning, skipping characters that are deleted by backspaces (`#`).
-
-To handle the backspaces, it finds the next valid character in each string by counting the backspaces (`#`) and skipping over the characters that would be deleted. Once both pointers are positioned at valid characters, those characters are compared. If they match, the pointers move to the previous valid characters and repeat the process, otherwise it returns false.
-
-If at any point, one string still has valid characters remaining while the other does not, it returns false.
-
-Complexity analysis:
-
-- Time complexity: O(N+M)
-- Space complexity: O(1)
-
-Where `N` and `M` are the lengths of the two input strings respectively.
-
-```python
-# O(K) time and O(1) space
-# where K is the length of the string parameter
-def getNextValidIndex(string: str, index: int) -> int:
-    backspaces = 0
-    while index >= 0:
-        if string[index] == "#":
-            backspaces += 1
-        elif backspaces > 0:
-            backspaces -= 1 # found a character that is affected by a backspace, skip it
-        else:
-            break # found a valid character that is not affected by any backspace
-        index -= 1
-
-    return index
-
-def backspaceCompare(s: str, t: str) -> bool:
-    current_s = len(s) - 1
-    current_t = len(t) - 1
-    while current_s >= 0 or current_t >= 0:
-        current_s = getNextValidIndex(s, current_s)
-        current_t = getNextValidIndex(t, current_t)
-    
-        # if both pointers have valid characters, compare them
-        if current_s >= 0 and current_t >= 0 and s[current_s] != t[current_t]:
-            return False
+        while s_index >= 0 or t_index >= 0:
+            s_index = self.getNextValidIndex(s, s_index)
+            t_index = self.getNextValidIndex(t, t_index)
         
-        # if one string has a valid character left and the other doesn't,
-        if (current_s >= 0 and current_t < 0) or (current_t >= 0 and current_s < 0):
-            return False
+            # Reached the end of both the strings
+            if s_index < 0 and t_index < 0:
+                return True
+
+            # Reached the end of one of the strings
+            if s_index < 0 or t_index < 0:
+                return False
+            
+            # Non-matching characters
+            if s[s_index] != t[t_index]:
+                return False
+            
+            s_index -= 1
+            t_index -= 1
         
-        current_s -= 1
-        current_t -= 1
-    
-    return True
+        return True
 ```

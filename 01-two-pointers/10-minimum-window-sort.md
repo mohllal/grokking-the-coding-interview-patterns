@@ -1,157 +1,130 @@
-# Problem: Minimum Window Sort
+---
+title: Shortest Unsorted Continuous Subarray
+difficulty: 🟡 Medium
+tags:
+  - Array
+  - Two Pointers
+  - Stack
+  - Greedy
+  - Sorting
+  - Monotonic Stack
+url: https://leetcode.com/problems/shortest-unsorted-continuous-subarray/
+---
 
-LeetCode problem: [581. Shortest Unsorted Continuous Subarray](https://leetcode.com/problems/shortest-unsorted-continuous-subarray/).
+# Shortest Unsorted Continuous Subarray
 
-Given an array, find the length of the smallest subarray in it which when sorted will sort the whole array.
+## Problem Description
+
+Given an integer array `nums`, you need to find one **continuous subarray** such that if you only sort this subarray in non-decreasing order, then the whole array will be sorted in non-decreasing order.
+
+Return the shortest such subarray and output its length.
 
 ## Examples
 
-Example 1:
+**Example 1:**
 
 ```plaintext
-Input: [1, 2, 5, 3, 7, 10, 9, 12]
+Input: nums = [2,6,4,8,10,9,15]
 Output: 5
-Explanation: We need to sort only the subarray [5, 3, 7, 10, 9] to make the whole array sorted
+Explanation: You need to sort [6, 4, 8, 10, 9] in ascending order to make the whole array sorted in ascending order.
 ```
 
-Example 2:
+**Example 2:**
 
 ```plaintext
-Input: [1, 3, 2, 0, -1, 7, 10]
-Output: 5
-Explanation: We need to sort only the subarray [1, 3, 2, 0, -1] to make the whole array sorted
-```
-
-Example 3:
-
-```plaintext
-Input: [1, 2, 3]
+Input: nums = [1,2,3,4]
 Output: 0
-Explanation: The array is already sorted
 ```
 
-Example 4:
+**Example 3:**
 
 ```plaintext
-Input: [3, 2, 1]
-Output: 3
-Explanation: The whole array needs to be sorted.
+Input: nums = [1]
+Output: 0
 ```
 
-## Solution 1
+## Constraints
 
-The algorithm first creates a sorted copy of the input array. It then iterates through both the input and sorted arrays to identify the start and end indices of the unsorted subarray.
+- `1 <= nums.length <= 10^4`
+- `-10^5 <= nums[i] <= 10^5`
 
-By comparing corresponding elements in the input array and the sorted array, it finds the first and last positions where the elements differ.
+**Follow up:** Can you solve it in `O(n)` time complexity?
 
-Complexity analysis:
+## Solution
 
-- Time complexity: O(N * LogN)
-- Space complexity: O(N)
+### Intuition
+
+Finding the first out-of-order elements from both ends gives us a candidate subarray. But this might not be enough — we need to extend the subarray to include:
+
+- Any element **before** the subarray that's greater than the subarray's minimum
+- Any element **after** the subarray that's less than the subarray's maximum
+
+### Algorithm
+
+1. Find `left`: first index where `nums[left] > nums[left + 1]` (from start)
+2. Find `right`: first index where `nums[right] < nums[right - 1]` (from end)
+3. If `left >= right`: array is already sorted, return 0
+4. Find `min` and `max` values in the subarray `[left, right]`
+5. Extend `left` leftward while `nums[left-1] > min`
+6. Extend `right` rightward while `nums[right+1] < max`
+7. Return `right - left + 1`
+
+### Complexity Analysis
+
+- **Time Complexity:** $O(n)$ — Multiple linear passes.
+- **Space Complexity:** $O(1)$ — Only pointers and min/max values.
 
 ```python
-def findUnsortedSubarray(nums: List[int]) -> int:
-    sorted_nums = list(sorted(nums))
-    
-    start = None
-    end = None
-    for i in range(len(nums)):
-        if nums[i] != sorted_nums[i]:
-            if start is None:
-                start = i
-                end = i
-            else:
-                end = i
+class Solution:
+    def findUnsortedSubarrayWindow(self, nums: List[int]) -> Tuple[int, int]:
+        # Find first index from the left where order breaks
+        left = 0
+        while left < len(nums) - 1 and nums[left] <= nums[left + 1]:
+            left += 1
 
-    return (end - start) + 1 if start is not None else 0
-```
+        # Find first index from the right where order breaks
+        right = len(nums) - 1
+        while right > 0 and nums[right] >= nums[right - 1]:
+            right -= 1
 
-## Solution 2
+        return left, right
 
-The algorithm starts by identifying both the start and the end of the candidate unsorted subarray through the following steps:
-
-1. It begins from the start of the array to find the first element that is out of order (i.e., an element smaller than its previous element).
-2. Similarly, it starts from the end of the array to find the first element that is out of order (i.e., an element larger than its previous element).
-
-But sorting this subarray may not necessarily result in the entire array being sorted. Here is an example:
-
-```plaintext
-Input: [1, 3, 2, 0, -1, 7, 10]
-Sorting the numbers between '3' and '-1' will not sort the whole array: [1, -1, 0, 2, 3, 7, 10]
-```
-
-This happens when any of the following two conditions is met:
-
-1. There is a number before the candidate unsorted subarray that is larger than any number in the unsorted subarray.
-2. There is a number after the candidate unsorted subarray that is smaller than any number in the unsorted subarray.
-
-To sort the entire array, it is necessary to include all such elements that are larger than the smallest element of the unsorted subarray and all elements that are smaller than the largest element of the unsorted subarray.
-
-Therefore, the final algorithm proceeds as follows:
-
-1. From the beginning of the array, find the first element that is out of order. This element marks the start of the candidate unsorted subarray.
-2. From the end of the array, find the first element that is out of order. This element marks the end of the candidate unsorted subarray.
-3. Find the minimum and maximum values within this unsorted subarray.
-4. Extend the subarray to the left to include any elements that are larger than the minimum value of the unsorted subarray.
-5. Similarly, extend the subarray to the right to include any elements that are smaller than the maximum value of the unsorted subarray.
-
-Complexity analysis:
-
-- Time complexity: O(N)
-- Space complexity: O(1)
-
-```python
-# O(N) time and O(1) space
-def findUnsortedSubarrayIndices(nums: List[int]) -> Tuple[Optional[int], Optional[int]]:
-    left = 0
-    while left < len(nums) - 1 and nums[left] <= nums[left + 1]:
-        left += 1
-    
-    # if the array is sorted
-    if left == len(nums) - 1:
-        return None, None
-    
-    right = len(nums) - 1
-    while right > 0 and nums[right] >= nums[right - 1]:
-        right -= 1
-    
-    return left, right
-
-# O(N) time and O(1) space
-def findSubarrayMinimumAndMaximum(nums: List[int], start: int, end: int) -> Tuple[int, int]:
-    minimum = float("inf")
-    maximum = float("-inf")
-    for i in range(start, end + 1):
-        minimum = min(minimum, nums[i])
-        maximum = max(maximum, nums[i])
-    
-    return minimum, maximum
-
-def findUnsortedSubarray(nums: List[int]) -> int:
-    start, end = findUnsortedSubarrayIndices(nums)
-    
-    # if the array is sorted
-    if start is None and end is None:
-        return 0
-
-    # find minimum and maximum numbers in the unsorted subarray
-    minimum, maximum = findSubarrayMinimumAndMaximum(nums, start, end)
-    
-    # expand the subarray to the left to include any element before the subarray
-    # which is smaller than the minimum element of the unsorted subarray
-    temp = start - 1
-    while temp >= 0:
-        if nums[temp] > minimum:
-            start = temp
-        temp -= 1
-    
-    # expand the subarray to the right to include any element after the subarray
-    # which is larger than the maximum element of the unsorted subarray
-    temp = end + 1
-    while temp <= len(nums) - 1:
-        if nums[temp] < maximum:
-            end = temp
-        temp += 1
+    def minimumInSubarray(self, nums: List[int], left: int, right: int) -> int:
+        minimum = nums[left]
+        for i in range(left + 1, right + 1):
+            minimum = min(nums[i], minimum)
         
-    return (end - start) + 1
+        return minimum
+
+    def maximumInSubarray(self, nums: List[int], left: int, right: int) -> int:
+        maximum = nums[left]
+        for i in range(left + 1, right + 1):
+            maximum = max(nums[i], maximum)
+        
+        return maximum
+
+    def findUnsortedSubarray(self, nums: List[int]) -> int:
+        left, right = self.findUnsortedSubarrayWindow(nums)
+
+        # If the array is already sorted
+        if left >= right:
+            return 0
+
+        # Find min and max inside the initial unsorted window
+        minimum = self.minimumInSubarray(nums, left, right)
+        maximum = self.maximumInSubarray(nums, left, right)
+
+        # Expand left boundary:
+        # If an element before the window is greater than the minimum inside it,
+        # that element would move right after sorting, so it must be included.
+        while left > 0 and nums[left - 1] > minimum:
+            left -= 1
+
+        # Expand right boundary:
+        # If an element after the window is smaller than the maximum inside it,
+        # that element would move left after sorting, so it must be included.
+        while right < len(nums) - 1 and nums[right + 1] < maximum:
+            right += 1
+
+        return right - left + 1
 ```
