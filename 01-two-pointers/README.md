@@ -1,80 +1,127 @@
-# Two Pointers
+# Pattern: Two Pointers
 
 ## Overview
 
-The **Two Pointers** technique uses two pointers (or indices) to traverse a data structure simultaneously. Instead of using nested loops ($O(n^2)$), two pointers can often solve problems in a single pass ($O(n)$).
+The **Two Pointers** technique uses two pointers (or indices) to traverse a data structure simultaneously.
+
+Instead of using nested loops with time complexity $O(n^2)$, two pointers can often solve problems in a single pass with time complexity $O(n)$.
+
+> Core idea: Each pointer moves at most $n$ times.
 
 ## Common Variants
 
-### 1. Opposite Direction (Converging)
+### 1. Converging Pointers (Opposite Ends)
 
-Pointers start at opposite ends and move toward each other.
+**Mental model:**
+
+Pointers start at opposite ends and move toward each other until they meet.
+
+**Typical movement:**
+
+- One pointer starts at the left
+- One pointer starts at the right
+- At each step, move exactly one pointer inward
+
+**Example:**
 
 ```plaintext
 Array: [1, 2, 3, 4, 5, 6, 7]
         ↑                 ↑
        left             right
-        →       ←
+        →                 ←
 ```
 
 **Use when:**
 
 - Array is sorted
 - Finding pairs with a certain criteria
+- Decision depends on sum / comparison
+- You want to reduce the range of possible solutions
 
-### 2. Same Direction (Fast & Slow)
+### 2. Fast–Slow Pointers (Same Direction)
 
-Both pointers start at the same end, one moves faster or conditionally.
+**Mental model:**
+
+Both pointers start at the same end, one moves faster (or conditionally).
+
+> Think: "Read pointer" vs "Write pointer"
+
+**Typical movement:**
+
+- Both start at the same index
+- `fast` always moves
+- `slow` moves conditionally
+
+**Example:**
 
 ```plaintext
 Array: [1, 1, 2, 2, 3, 4, 4]
-        ↑  ↑
-       slow fast
-             →→
+        ↑     ↑
+       slow  fast
+        →     →
 ```
 
 **Use when:**
 
-- Removing duplicates in-place
-- Partitioning elements by condition
+- In-place modification
+- Removing / collapsing elements
+- Partitioning based on condition
+- Deduplication (removing duplicates)
 
-### 3. Sliding Window Anchored
+👉 **For a deep dive and more focused practice problems for this pattern, see:**  
+[Fast & Slow Pointers (Hare & Tortoise)](../02-fast-and-slow-pointers/README.md)
 
-One pointer anchors, the other explores a range.
+### 3. Anchored + Expanding Window (Fixed Anchor)
+
+**Mental model:**
+
+Fix one element → solve a two-pointer problem on the rest of the array.
+
+> Very common in k-Sum problems
+
+**Typical movement:**
+
+- Outer loop fixes an anchor element
+- Inner loop uses two pointers to find pairs with the anchor element
+- Anchor moves → window resets
+
+**Example:**
 
 ```plaintext
-Array: [-2, 0, 1, 3]      target = 2
+Array: [-2, 0, -1, 1, 3, 2]      target = 2
          ↑
          i (anchor)
-            ↑     ↑
-          left  right
+            ↑   ↑
+          left right
 ```
 
 **Use when:**
 
 - Finding triplets/quadruplets with certain criteria
+- Input is sorted
+- Remaining problem reduces to Two Sum
 
-## When to Use Two Pointers
+## Decision Guide
 
-| Signal                               | Example                                     |
-|--------------------------------------|---------------------------------------------|
-| **Sorted array** + find pair/triplet | Two Sum II, 3Sum                            |
-| **In-place** modification required   | Remove Duplicates, Remove Element           |
-| **Comparing from both ends**         | Valid Palindrome, Container With Most Water |
-| **Partitioning** elements            | Dutch National Flag, Sort Colors            |
-| **Merging** sorted arrays            | Merge Sorted Array, Squares of Sorted Array |
+| Signal You See             | Pattern to Try First     |
+| :------------------------: | :----------------------: |
+| Sorted + find pair         | Converging pointers      |
+| In-place modification      | Fast–Slow pointers       |
+| Triplets / Quadruplets     | Anchored + Converging    |
+| Compare from both ends     | Converging pointers      |
+| One pass, no extra memory  | Same-direction pointers  |
 
 ## Problems
 
-|  #  | Problem                                                                                        | Difficulty |
-| :-: | :--------------------------------------------------------------------------------------------- | :--------: |
-| 01  | [Two Sum II](./01-pair-with-target-sum.md)                                                     | 🟡 Medium  |
-| 02  | [Find Non-Duplicate Number Instances](./02-find-non-duplicate-number-instances.md)             | 🟢 Easy    |
-| 03  | [Squaring a Sorted Array](./03-squaring-a-sorted-array.md)                                     | 🟢 Easy    |
-| 04  | [Triplet Sum to Zero](./04-triplet-sum-to-zero.md)                                             | 🟡 Medium  |
-| 05  | [Triplet Sum Close to Target](./05-triplet-sum-close-to-target.md)                             | 🟡 Medium  |
-| 06  | [Triplets with Smaller Sum](./06-triplets-with-smaller-sum.md)                                 | 🟡 Medium  |
-| 07  | [Dutch National Flag Problem](./07-dutch-national-flag-problem.md)                             | 🟡 Medium  |
-| 08  | [Quadruple Sum to Target](./08-quadruple-sum-to-target.md)                                     | 🟡 Medium  |
-| 09  | [Backspace String Compare](./09-comparing-strings-containing-backspaces.md)                    | 🟢 Easy    |
-| 10  | [Minimum Window Sort](./10-minimum-window-sort.md)                                             | 🟡 Medium  |
+|  #  | Problem                                                                             | Difficulty |
+| :-: | :---------------------------------------------------------------------------------: | :--------: |
+| 01  | [Two Sum II](./01-pair-with-target-sum.md)                                          | 🟡 Medium  |
+| 02  | [Find Non-Duplicate Number Instances](./02-find-non-duplicate-number-instances.md)  | 🟢 Easy    |
+| 03  | [Squaring a Sorted Array](./03-squaring-a-sorted-array.md)                          | 🟢 Easy    |
+| 04  | [Triplet Sum to Zero](./04-triplet-sum-to-zero.md)                                  | 🟡 Medium  |
+| 05  | [Triplet Sum Close to Target](./05-triplet-sum-close-to-target.md)                  | 🟡 Medium  |
+| 06  | [Triplets with Smaller Sum](./06-triplets-with-smaller-sum.md)                      | 🟡 Medium  |
+| 07  | [Dutch National Flag Problem](./07-dutch-national-flag-problem.md)                  | 🟡 Medium  |
+| 08  | [Quadruple Sum to Target](./08-quadruple-sum-to-target.md)                          | 🟡 Medium  |
+| 09  | [Backspace String Compare](./09-comparing-strings-containing-backspaces.md)         | 🟢 Easy    |
+| 10  | [Minimum Window Sort](./10-minimum-window-sort.md)                                  | 🟡 Medium  |

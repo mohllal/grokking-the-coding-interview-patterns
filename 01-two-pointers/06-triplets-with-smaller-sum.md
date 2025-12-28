@@ -107,28 +107,24 @@ class Solution:
 
 ---
 
-## Similar Problem
+# Similar Problem: 3Sum Smaller Triplets
 
-| title                 | difficulty | tags                         |
-|-----------------------|:----------:|------------------------------|
-| 3Sum Smaller Triplets | 🟡 Medium  | Array, Two Pointers, Sorting |
+## Problem Description
 
-### Problem Description
+Given an array of `n` integers `nums` and an integer `target`, find the triplets `[nums[i], nums[j], nums[k]]` with `0 <= i < j < k < n` that satisfy the condition `nums[i] + nums[j] + nums[k] < target`.
 
-Write a function to return the **list** of all such triplets instead of the count.
+## Solution
 
-### Solution
-
-#### Algorithm
+### Algorithm
 
 Instead of counting, we record all valid triplets by iterating from `right` down to `left` when a valid sum is found.
 
-#### Complexity Analysis
+### Complexity Analysis
 
 - **Time Complexity:** $O(n^2)$ — In the worst case, we enumerate all triplets.
 - **Space Complexity:** $O(n^2)$ — For storing all valid triplets.
 
-##### Why space complexity is $O(n^2)$?
+### Why space complexity is $O(n^2)$?
 
 When including the output, the result list has **$O(n^2)$** space complexity because of the number of valid triplets it may store.
 

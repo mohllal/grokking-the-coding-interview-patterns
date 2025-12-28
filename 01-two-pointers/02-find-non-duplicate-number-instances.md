@@ -82,17 +82,13 @@ class Solution:
 
 ---
 
-## Similar Problem
+# Similar Problem: [Remove Element](https://leetcode.com/problems/remove-element/)
 
-| title          | difficulty | tags                 | url                                              |
-| -------------- | :--------: | -------------------- | ------------------------------------------------ |
-| Remove Element | 🟢 Easy    | Array, Two Pointers  | <https://leetcode.com/problems/remove-element/>  |
-
-### Problem Description
+## Problem Description
 
 Given an integer array `nums` and an integer `val`, remove all occurrences of `val` in-place and return the new length.
 
-### Examples
+## Examples
 
 **Example 1:**
 
@@ -108,20 +104,20 @@ Input: nums = [0,1,2,2,3,0,4,2], val = 2
 Output: 5, nums = [0,1,4,0,3,_,_,_]
 ```
 
-### Solution
+## Solution
 
-#### Intuition
+### Intuition
 
 Similar to removing duplicates, but instead of comparing adjacent elements, we compare each element against the target value `val`.
 
-#### Algorithm
+### Algorithm
 
 1. Initialize `next_non_val = 0` to track where to place non-val elements
 2. Iterate through the array:
    - If `nums[i] != val`: copy it to `nums[next_non_val]` and increment
 3. Return `next_non_val`
 
-#### Complexity Analysis
+### Complexity Analysis
 
 - **Time Complexity:** $O(n)$ — Single pass through the array.
 - **Space Complexity:** $O(1)$ — In-place modification.
