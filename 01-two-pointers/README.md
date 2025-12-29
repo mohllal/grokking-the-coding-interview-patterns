@@ -26,9 +26,10 @@ Pointers start at opposite ends and move toward each other until they meet.
 
 ```plaintext
 Array: [1, 2, 3, 4, 5, 6, 7]
-        ↑                 ↑
+        │                 │
+        ▼                 ▼
        left             right
-        →                 ←
+       ───▶             ◀────
 ```
 
 **Use when:**
@@ -56,9 +57,10 @@ Both pointers start at the same end, one moves faster (or conditionally).
 
 ```plaintext
 Array: [1, 1, 2, 2, 3, 4, 4]
-        ↑     ↑
+        │     │
+        ▼     ▼
        slow  fast
-        →     →
+       ───▶  ───▶
 ```
 
 **Use when:**
@@ -89,10 +91,12 @@ Fix one element → solve a two-pointer problem on the rest of the array.
 
 ```plaintext
 Array: [-2, 0, -1, 1, 3, 2]      target = 2
-         ↑
+         │
+         ▼
          i (anchor)
-            ↑   ↑
-          left right
+              │   │
+              ▼   ▼
+            left right
 ```
 
 **Use when:**
