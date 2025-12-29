@@ -22,6 +22,7 @@ If there are two middle nodes, return **the second middle** node.
 ```plaintext
 1 ──▶ 2 ──▶ [3] ──▶ 4 ──▶ 5 ──▶ null
              ▲
+             │
            middle
 
 Input: head = [1,2,3,4,5]
@@ -34,6 +35,7 @@ Explanation: The middle node of the list is node 3.
 ```plaintext
 1 ──▶ 2 ──▶ 3 ──▶ [4] ──▶ 5 ──▶ 6 ──▶ null
                    ▲
+                   │
                  middle
 
 Input: head = [1,2,3,4,5,6]

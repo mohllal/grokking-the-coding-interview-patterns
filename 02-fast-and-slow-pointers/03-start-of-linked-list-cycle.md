@@ -108,11 +108,11 @@ Floyd's cycle detection gives us a meeting point inside the cycle. The key insig
 **Setup and variables:**
 
 ```plaintext
-head ──▶ ─ ─ ──▶ [S] ──▶ ─ ─ ──▶ [M] ──▶ ─ ─
-◀────── d ──────▶ ▲  ◀──── b ─────▶         │
-                  │                         │
-                  └─────────────────────────┘
-                  ◀────────── k ────────────▶
+head ──────────▶ [S] ──────────▶ [M] ─────┐
+|────── d ──────| ▲ |──── b ──────|       │
+                  │                       │
+                  └───────────────────────┘
+                  |────────── k ──────────|
 
 [S] = cycle start
 [M] = meeting point
@@ -234,10 +234,11 @@ pointer at the cycle start.
 Let `d` = distance from head to cycle start `S`. When both pointers move at the same speed:
 
 ```plaintext
-head ──▶ ─ ─ ──▶ [S] ──▶ ─ ─ ──▶ ─ ─
-◀───── d ───────▶ ▲                 │
-                  └─────────────────┘
-                  ◀─────── k ───────▶
+head ────────▶ [S] ───────────────┐
+|────── d ──────| ▲               │
+                  │               │
+                  └───────────────┘
+                  |────── k ──────|
 
 [S] = cycle start
 d = distance from head to cycle start
