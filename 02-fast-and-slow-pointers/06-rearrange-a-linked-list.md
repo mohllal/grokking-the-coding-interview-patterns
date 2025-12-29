@@ -1,41 +1,84 @@
-# Problem: Rearrange a Linked List
+---
+title: Reorder List
+difficulty: 🟡 Medium
+tags:
+  - Linked List
+  - Two Pointers
+  - Stack
+  - Recursion
+url: https://leetcode.com/problems/reorder-list/
+---
 
-LeetCode problem: [143. Reorder List](https://leetcode.com/problems/reorder-list/).
+# Reorder List
 
-Given the head of a singly linked list, write a method to modify the linked list such that the nodes from the second half of the linked list are inserted alternately to the nodes from the first half in reverse order.
+## Problem Description
 
-Your algorithm should not use any extra space and the input linked list should be modified in-place.
+Given the head of a singly linked list, reorder it to: `L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → ...`
+
+You may not modify the values in the list's nodes. Only nodes themselves may be changed.
 
 ## Examples
 
-Example 1:
+**Example 1:**
 
 ```plaintext
-Input: 2 ──▶ 4 ──▶ 6 ──▶ 8 ──▶ 10 ──▶ 12 ──▶ null
-Output: 2 ──▶ 12 ──▶ 4 ──▶ 10 ──▶ 6 ──▶ 8 ──▶ null 
+1 ──▶ 2 ──▶ 3 ──▶ 4 ──▶ null
+
+becomes
+
+1 ──▶ 4 ──▶ 2 ──▶ 3 ──▶ null
+
+Input: head = [1,2,3,4]
+Output: [1,4,2,3]
 ```
 
-Example 2:
+**Example 2:**
 
 ```plaintext
-Input: 2 ──▶ 4 ──▶ 6 ──▶ 8 ──▶ 10 ──▶ null
-Output: 2 ──▶ 10 ──▶ 4 ──▶ 8 ──▶ 6 ──▶ null
+1 ──▶ 2 ──▶ 3 ──▶ 4 ──▶ 5 ──▶ null
+
+becomes
+
+1 ──▶ 5 ──▶ 2 ──▶ 4 ──▶ 3 ──▶ null
+
+Input: head = [1,2,3,4,5]
+Output: [1,5,2,4,3]
 ```
+
+## Constraints
+
+- The number of nodes in the list is in the range `[1, 5 * 10^4]`.
+- `1 <= Node.val <= 1000`
 
 ## Solution
 
-This problem shares similarities with the [Palindrome Linked List](./05-palindrome-linked-list.md) problem.
+### Intuition
 
-The algorithm follows these steps:
+This problem combines three linked list operations:
 
-1. Identify the middle node of the linked list. This is similar to solving the [Middle of the Linked List](./04-middle-of-the-linked-list.md) problem.
-2. Reverse the second half of the linked list.
-3. Iterate through the first half and the reversed second half to produce a linked list in the required order.
+1. **Find the middle** - Split the list into two halves
+2. **Reverse the second half** - So we can interleave from both ends
+3. **Merge alternately** - Weave nodes from first half and reversed second half
 
-Complexity analysis:
+This is similar to [Palindrome Linked List](./05-palindrome-linked-list.md) but instead of comparing, we're merging.
 
-- Time complexity: O(N)
-- Space complexity: O(1)
+```plaintext
+Original:     1 ──▶ 2 ──▶ 3 ──▶ 4 ──▶ 5 ──▶ null
+Split:        1 ──▶ 2                  |    3 ──▶ 4 ──▶ 5 ──▶ null
+Reverse 2nd:  1 ──▶ 2 ──▶ 3 ──▶ null   |    5 ──▶ 4 ──▶ 3 ──▶ null
+Merge:        1 ──▶ 5 ──▶ 2 ──▶ 4 ──▶ 3 ──▶ null
+```
+
+### Algorithm
+
+1. Find the middle node using slow/fast pointers
+2. Reverse the second half of the list
+3. Merge the two halves by alternating nodes
+
+### Complexity Analysis
+
+- **Time Complexity:** $O(n)$ - Three linear passes (find middle, reverse, merge)
+- **Space Complexity:** $O(1)$ - Only pointer manipulations, no extra storage
 
 ```python
 class ListNode:
@@ -43,49 +86,49 @@ class ListNode:
         self.val = val
         self.next = next
 
-# O(N) time and O(1) space
-def reverseList(node: Optional[ListNode]) -> Optional[ListNode]:
-    prev_node = None
-    current = node
-    
-    while current is not None:
-        next_node = current.next
-        
-        current.next = prev_node
-        prev_node = current
-        
-        current = next_node
-        
-    return prev_node
+class Solution:
+    def getMiddleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        slow = head
+        fast = head
 
-# O(N) time and O(1) space
-def getMiddleNode(node: Optional[ListNode]) -> Optional[ListNode]:
-    slow = node
-    fast = node
-    
-    while fast is not None and fast.next is not None:
-        slow = slow.next
-        fast = fast.next.next
-        
-    return slow
+        while fast is not None and fast.next is not None:
+            slow = slow.next
+            fast = fast.next.next
 
-def reorderList(head: Optional[ListNode]) -> None:
-  second_half = getMiddleNode(head)
-  reversed_second_half = reverseList(second_half)
-      
-  pointer1 = head
-  pointer2 = reversed_second_half
-  while pointer1 is not None and pointer2 is not None:
-      pointer1_next = pointer1.next
-      pointer2_next = pointer2.next
-      
-      # preventing cycle
-      if pointer1.next != pointer2:
-          pointer1.next = pointer2
-          pointer2.next = pointer1_next       
-    
-      pointer1 = pointer1_next
-      pointer2 = pointer2_next
-  
-  return head
+        return slow
+
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        previous_node = None
+        current_node = head
+
+        while current_node is not None:
+            next_node = current_node.next
+            current_node.next = previous_node
+
+            previous_node = current_node
+            current_node = next_node
+
+        return previous_node
+
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        if not head or not head.next:
+            return head
+
+        middle = self.getMiddleNode(head)
+        second_half = self.reverseList(middle)
+
+        first = head
+        second = second_half
+
+        while second.next is not None:
+            first_next = first.next
+            second_next = second.next
+
+            first.next = second
+            second.next = first_next
+
+            first = first_next
+            second = second_next
+        
+        return head
 ```

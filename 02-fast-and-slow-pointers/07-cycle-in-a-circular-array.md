@@ -1,123 +1,108 @@
-# Problem: Cycle in a Circular Array
+---
+title: Circular Array Loop
+difficulty: 🟡 Medium
+tags:
+  - Array
+  - Hash Table
+  - Two Pointers
+url: https://leetcode.com/problems/circular-array-loop/
+---
 
-LeetCode problem: [457. Circular Array Loop](https://leetcode.com/problems/circular-array-loop/).
+# Circular Array Loop
 
-We are given an array containing positive and negative numbers. Suppose the array contains a number `M` at a particular index. Now, if `M` is positive we will move forward `M` indices and if `M` is negative move backwards `M` indices.
+## Problem Description
 
-You should assume that the array is circular which means two things:
+You are playing a game involving a circular array of non-zero integers `nums`. Each `nums[i]` denotes the number of indices forward/backward you must move if you are located at index `i`:
 
-- If, while moving forward, we reach the end of the array, we will jump to the first element to continue the movement.
-- If, while moving backward, we reach the beginning of the array, we will jump to the last element to continue the movement.
+- If `nums[i]` is positive, move `nums[i]` steps forward
+- If `nums[i]` is negative, move `nums[i]` steps backward
 
-Write a function to determine if the array has a cycle. The cycle should have more than one element and should follow one direction which means the cycle should not contain both forward and backward movements.
+Since the array is circular, you may assume that moving forward from the last element puts you on the first element, and moving backwards from the first element puts you on the last element.
+
+A **cycle** in the array consists of a sequence of indices `seq` of length `k` where:
+
+- Following the movement rules above results in the repeating index sequence
+- All `nums[seq[j]]` are either all positive or all negative (same direction)
+- `k > 1` (cycle length must be greater than 1)
+
+Return `true` if there is a cycle in `nums`, or `false` otherwise.
 
 ## Examples
 
-Example 1:
+**Example 1:**
 
 ```plaintext
-Input: [1, 2, -1, 2, 2]
+Input: nums = [2, -1, 1, 2, 2]
 
-Index: 0 -> 1 -> 2 -> 3 -> 4
-Value: 1    2   -1    2    2
-
-Linked list representation:
-
-4     2
-│     │
-▼     ▼
-0 ──▶ 1 ──▶ 3
-▲           │
-│           │
-│           ▼
-└───────── (cycle)
-
-Output: true
-Explanation: The array has a cycle among indices: 0 -> 1 -> 3 -> 0
-```
-
-Example 2:
-
-```plaintext
-Input: [2, -1, 1, 2, 2]
-
-Index: 0 -> 1 -> 2 -> 3 -> 4
+Index: 0    1    2    3    4
 Value: 2   -1    1    2    2
 
-Linked list representation:
+Movement: 0 ──▶ 2 ──▶ 3 ──▶ 0 (cycle!)
 
-1 ◀── 4
-│
-▼ 
-0 ──▶ 2 ──▶ 3
-▲           │
-│           │
-│           ▼
-└───────── (cycle)
+     0 ──▶ 2 ──▶ 3
+     ▲           │
+     └───────────┘
 
 Output: true
-Explanation: The array has a cycle among indices: 0 ──▶ 2 ──▶ 3 ──▶ 0
+Explanation: Cycle at indices 0 -> 2 -> 3 -> 0. All values positive.
 ```
 
-Example 3:
+**Example 2:**
 
 ```plaintext
-Input: [1, -1, 5, 1, 4]
+Input: nums = [-1, -2, -3, -4, -5, 6]
 
-Index: 0 -> 1 -> 2 -> 3 -> 4
-Value: 1   -1    5    1    4
+Index:  0    1    2    3    4    5
+Value: -1   -2   -3   -4   -5    6
 
-Linked list representation:
-
-List 1:
-
-0 ──f──▶ 1
-▲        │
-│        B
-│        │
-│        ▼              
-└─── (cycle)
-
-List 2:
- ──────────
-│          │
-2          │
-│          │
-(cycle) ◀───
-
-
-List 3:
-
-3 ──f──▶ 4
-▲        │
-│        f
-│        │
-│        ▼              
-└─── (cycle)
+Movement from 0: 0 ──▶ 4 ──▶ 4 (self-loop, invalid)
+Movement from 5: 5 ──▶ 5 (self-loop, invalid)
 
 Output: false
-Explanation:
-
-The array represents three linked lists as follows:
-
-1. The cycle 0 ──▶ 1 ──▶ 0 ──▶ ..., and while it is of size > 1, it has a node jumping forward and a node jumping backward so it is not a valid cycle.
-2. The cycle (2) has a length of 1 so it is not a valid cycle.
-3. The cycle 3 ──▶ 4 ──▶ 3 ──▶ ..., has a valid length and all nodes within the cycle are jumping in the same direction.
+Explanation: No valid cycle. Self-loops don't count.
 ```
 
-## Solution 1
+**Example 3:**
 
-The algorithm begins by creating an array of linked list nodes to represent the circular array. Each node corresponds to an element in the array and has information about its direction (positive or negative as boolean value).
+```plaintext
+Input: nums = [1, -1, 5, 1, 4]
 
-Next, it checks each node for a cycle using a cycle detection algorithm similar to the one used in the [Linked List Cycle](./01-linked-list-cycle.md) problem. The cycle detection ensures that if a cycle is found, the following conditions is true:
+Index: 0    1    2    3    4
+Value: 1   -1    5    1    4
 
-1. Elements within the cycle move in the same direction (by checking the direction of each element while searching for the cycle).
-2. Cycle should have more than one element.
+Movement: 0 ──▶ 1 ──▶ 0 (mixed directions: +1 then -1)
 
-Complexity analysis:
+Output: false
+Explanation: Cycle exists but has mixed directions.
+```
 
-- Time complexity: O(N^2)
-- Space complexity: O(N)
+## Constraints
+
+- `1 <= nums.length <= 5000`
+- `-1000 <= nums[i] <= 1000`
+- `nums[i] != 0`
+
+## Solution 1: Using Linked List Representation
+
+### Intuition
+
+Think of the array as a linked list where each index points to its next index based on the value. We can then use cycle detection similar to [Linked List Cycle](./01-linked-list-cycle.md).
+
+However, we need additional checks:
+
+1. Cycle must have length > 1 (no self-loops)
+2. All elements in cycle must have same direction (all positive or all negative)
+
+### Algorithm
+
+1. Build a linked list representation of the array
+2. For each starting index, run cycle detection with direction checking
+3. Return true if a valid cycle is found
+
+### Complexity Analysis
+
+- **Time Complexity:** $O(n^2)$ - For each starting point, we may traverse the entire array
+- **Space Complexity:** $O(n)$ - Storing the linked list nodes
 
 ```python
 class ListNode:
@@ -125,126 +110,146 @@ class ListNode:
         self.value = value
         self.direction = direction
         self.next = None
-    
-    def __repr__(self):
-        return f'ListNode(\'{self.value}\', {self.direction})'
 
-# O(n) time and O(1) space
-def hasCycleWithSameDirection(head: Optional[ListNode]) -> bool:
-    slow = head
-    fast = head
-    
-    while fast is not None and fast.next is not None:
-        # skip self cycles (one-node length cycle)
-        if slow == slow.next or fast == fast.next or fast.next == fast.next.next:
-            break
-        
-        # skip cycles with mixed directions
-        if not (slow.direction == fast.direction == fast.next.direction):
-            break
+class Solution:
+    def getNextIndex(self, nums: List[int], index: int) -> int:
+        n = len(nums)
+        return (index + nums[index]) % n
 
-        slow = slow.next
-        fast = fast.next.next
+    def hasCycleWithSameDirection(self, head: ListNode) -> bool:
+        slow = head
+        fast = head
 
-        if slow == fast:
-            return True
-    
-    return False
+        while fast is not None and fast.next is not None:
+            # check for self-loops for slow and fast pointers
+            if slow == slow.next or fast == fast.next or fast.next == fast.next.next:
+                break
 
-def circularArrayLoop(nums: List[int]) -> bool:
+            # check for mixed directions
+            if not (slow.direction == fast.direction == fast.next.direction):
+                break
+
+            slow = slow.next
+            fast = fast.next.next
+
+            if slow == fast:
+                return True
+
+        return False
+
+    def circularArrayLoop(self, nums: List[int]) -> bool:
+        n = len(nums)
         nodes = []
-        for i in range(len(nums)):
-            direction = True if nums[i] >= 0 else False
+
+        for i in range(n):
+            direction = nums[i] > 0
             nodes.append(ListNode(i, direction))
 
-        for i in range(len(nodes)):
-            current_node = nodes[i]
-            
-            next_node_idx = (i + nums[i]) % len(nums)
-            next_node = nodes[next_node_idx]
-            
-            current_node.next = next_node
+        for i in range(n):
+            next_index = self.getNextIndex(nums, i)
+            nodes[i].next = nodes[next_index]
 
-        for i in range(len(nodes)):
-            if hasCycleWithSameDirection(nodes[i]):
+        for i in range(n):
+            if self.hasCycleWithSameDirection(nodes[i]):
                 return True
-        
+
         return False
 ```
 
-## Solution 2
+## Solution 2: In-Place with Marking
 
-This algorithm improves upon the previous version by introducing two key changes:
+### Intuition
 
-1. In-place cycle detection: instead of constructing a separate array of linked list nodes, the algorithm directly uses the input array to traverse and detect potential cycles that move in the same direction. This eliminates the need for additional space.
-2. Marking visited elements: after each cycle detection attempt, all elements involved in that cycle (with the same direction) are marked as visited by setting their values to `0`. This prevents them from being rechecked in future iterations, ensuring that each element is processed at most twice — once during cycle detection and once during marking.
+We can optimize space by detecting cycles directly on the array. After checking each starting index, we mark visited elements as `0` to avoid rechecking them.
 
-Complexity analysis:
+**Key insight:** If we start from index `i` and don't find a valid cycle, then no valid cycle can start from any index we visited. Because they all follow the same path that leads to either:
 
-- Time complexity: O(N)
-- Space complexity: O(1)
+- A direction change (invalid)
+- A self-loop (invalid)
+- Already visited nodes
+
+So we mark them as `0` (visited) to skip in future iterations.
+
+### Algorithm
+
+1. For each unvisited index, run cycle detection
+2. Check for self-loops and mixed directions during traversal
+3. Cycle detection with validation:
+   - Move slow pointer one step, fast pointer two steps
+   - If either returns `-1`, the path is invalid → stop
+   - If `slow == fast` and both are valid → cycle found!
+4. Mark visited nodes: If no valid cycle found from this start, mark all nodes along the path as `0`
+5. Early return: Return `true` immediately when a valid cycle is found
+
+### Complexity Analysis
+
+- **Time Complexity:** $O(n)$ - Each element is visited at most twice (once for detection, once for marking)
+- **Space Complexity:** $O(1)$ - Only modifying input array, no extra data structures
 
 ```python
-# O(1) time and O(1) space
-def getNextIndex(nums: List[int], index: int) -> int:
-    return (index + nums[index]) % len(nums)
+class Solution:
+    def getNextIndex(self, nums: List[int], original_direction: bool, current_index: int) -> int:
+        """
+        Returns the next index in the circular array following the game rules.
+        Returns -1 if the path becomes invalid:
+            1. Direction changes (mix of positive/negative values)
+            2. Self-loop detected (next index equals current index)
+        """
+        current_direction = nums[current_index] >= 0
 
-# O(1) time and O(1) space
-def getDirection(nums: List[int], index: int) -> bool:
-    return nums[index] > 0
+        # Invalid: direction changed from original
+        if current_direction != original_direction:
+            return -1
 
-# O(N) time and O(1) space
-def hasCycleWithSameDirection(nums: List[int], index: int) -> bool:
-    slow = index
-    fast = index
-    
-    while True:
-        slow_direction = getDirection(nums, slow)
-        slow_next = getNextIndex(nums, slow)
-        
-        fast_direction = getDirection(nums, fast)
-        fast_next = getNextIndex(nums, fast)
-        fast_next_direction = getDirection(nums, fast_next)
-        fast_next_next = getNextIndex(nums, fast_next)
-        
-        # skip self cycles (one-node length cycle)
-        if slow == slow_next or fast == fast_next or fast_next == fast_next_next:
-            break
-        
-        # skip cycles with mixed directions
-        if not (slow_direction == fast_direction == fast_next_direction):
-            break
+        # Compute next index with circular wrapping
+        next_index = (current_index + nums[current_index]) % len(nums)
 
-        slow = slow_next
-        fast = fast_next_next
+        # Invalid: single-element cycle (self-loop)
+        if next_index == current_index:
+            return -1
 
-        if slow == fast:
-            return True
-    
-    return False
+        return next_index
 
-# O(N) time and O(1) space
-def markCycleElementsAsVisited(nums: List[int], index: int) -> None:
-    slow = index
-    temp = nums[index]
-    
-    # ensure that we only continue moving through the cycle while the elements
-    # we are visiting have the same direction as the starting element
-    while nums[slow] * temp > 0:
-        next_slow = getNextIndex(nums, slow)
-        nums[slow] = 0  # mark as visited
-        slow = next_slow
+    def hasCycleFromIndex(self, nums: List[int], start: int) -> bool:
+        n = len(nums)
+        original_direction = nums[start] >= 0  # True = forward, False = backward
 
-def circularArrayLoop(nums: List[int]) -> bool:
-    for i in range(len(nums)):
-        # skip visited elements
-        if nums[i] == 0:
-            continue
+        slow, fast = start, start
 
-        if hasCycleWithSameDirection(nums, i):
+        while True:
+            # Move slow one step
+            slow = self.getNextIndex(nums, original_direction, slow)
+            
+            # Move fast two steps (if first step is valid)
+            fast = self.getNextIndex(nums, original_direction, fast)
+            if fast != -1:
+                fast = self.getNextIndex(nums, original_direction, fast)
+
+            # Stop if: path invalid (-1) OR cycle detected (slow == fast)
+            if slow == -1 or fast == -1 or slow == fast:
+                break
+
+        # Check if we found a valid cycle (both pointers valid and equal)
+        if slow != -1 and slow == fast:
             return True
 
-        markCycleElementsAsVisited(nums, i)
+        # No valid cycle found - mark all nodes in this path as visited
+        index = start
+        while nums[index] != 0 and (nums[index] >= 0) == original_direction:
+            next_index = (index + nums[index]) % n
+            nums[index] = 0  # Mark as visited
+            index = next_index
 
-    return False
+        return False
+
+    def circularArrayLoop(self, nums: List[int]) -> bool:
+        for i in range(len(nums)):
+            # Skip already visited nodes (marked as 0)
+            if nums[i] == 0:
+                continue
+
+            if self.hasCycleFromIndex(nums, i):
+                return True
+
+        return False
 ```

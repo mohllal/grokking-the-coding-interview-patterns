@@ -1,127 +1,192 @@
-# Problem: Linked List Cycle
+---
+title: Linked List Cycle
+difficulty: 🟢 Easy
+tags:
+  - Hash Table
+  - Linked List
+  - Two Pointers
+url: https://leetcode.com/problems/linked-list-cycle/
+---
 
-LeetCode problem: [141. Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/).
+# Linked List Cycle
 
-Given the head of a singly linked list, write a function to determine if the linked list has a cycle in it or not.
+## Problem Description
+
+Given `head`, the head of a linked list, determine if the linked list has a cycle in it.
+
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the `next` pointer. Internally, `pos` is used to denote the index of the node that tail's `next` pointer is connected to. **Note that `pos` is not passed as a parameter**.
+
+Return `true` if there is a cycle in the linked list. Otherwise, return `false`.
 
 ## Examples
 
-Example 1:
+**Example 1:**
 
 ```plaintext
-Input: 0 ──▶ 1 ──▶ 3 ──▶ (2) ──▶ 4
-                          ▲       │
-                          │       │
-                          │       ▼
-                          └───── (cycle)
-Explanation: Linked list with a cycle
+3 ──▶ 2 ──▶ 0 ──▶ -4
+      ▲            │
+      └────────────┘
+
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
 ```
 
-Example 2:
+**Example 2:**
 
 ```plaintext
-Input: 0 ──▶ 1 ──▶ 3 ──▶ 2 ──▶ 4 ──▶ null
-Explanation: Linked list without a cycle
+┌─────────┐
+▼         │
+1 ──▶ 2 ──┘
+
+Input: head = [1,2], pos = 0
+Output: true
+Explanation: There is a cycle in the linked list, where tail connects to the 0th node.
+```
+
+**Example 3:**
+
+```plaintext
+1 ──▶ null
+
+Input: head = [1], pos = -1
+Output: false
+Explanation: There is no cycle in the linked list.
+```
+
+## Constraints
+
+- The number of the nodes in the list is in the range `[0, 10^4]`.
+- `-10^5 <= Node.val <= 10^5`
+- `pos` is `-1` or a **valid index** in the linked-list.
+
+## Solution
+
+### Intuition
+
+Two runners on a circular track at different speeds will eventually meet. The fast pointer moves 2 steps while slow moves 1, so fast gains 1 step per iteration. In a cycle, this gap shrinks until they collide. Without a cycle, fast reaches the end first.
+
+### Algorithm
+
+1. Initialize slow and fast pointers at head
+2. Move slow one step, fast two steps each iteration
+3. If they meet, there is a cycle
+4. If fast reaches null, there is no cycle
+
+### Complexity Analysis
+
+- **Time Complexity:** $O(n)$ - Each node is visited at most twice
+- **Space Complexity:** $O(1)$ - Only two pointers used regardless of list size
+
+```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        slow = head
+        fast = head
+
+        while fast is not None and fast.next is not None:
+            slow = slow.next
+            fast = fast.next.next
+
+            if slow == fast:
+                return True
+
+        return False
+```
+
+---
+
+# Similar Problem: Linked List Cycle Length
+
+## Problem Description
+
+Given the head of a LinkedList with a cycle, find the length of the cycle.
+
+## Examples
+
+**Example 1:**
+
+```plaintext
+3 ──▶ 2 ──▶ 0 ──▶ -4
+      ▲            │
+      └────────────┘
+
+Input: head = [3,2,0,-4], pos = 1
+Output: 2
+Explanation: The cycle length is 2.
+```
+
+**Example 2:**
+
+```plaintext
+┌─────────┐
+▼         │
+1 ──▶ 2 ──┘
+
+Input: head = [1,2], pos = 0
+Output: 1
+Explanation: The cycle length is 1.
+```
+
+**Example 3:**
+
+```plaintext
+1 ──▶ null
+
+Input: head = [1], pos = -1
+Output: 0
+Explanation: There is no cycle in the linked list.
 ```
 
 ## Solution
 
-Two pointers are used:
+### Intuition
 
-1. Slow pointer: Moves one node at a time.
-2. Fast pointer: Moves two nodes at a time.
+Once we find the meeting point inside the cycle, we have a reference node within the loop. Starting from this node and walking until we return to it counts every node in the cycle exactly once.
 
-This leads to two possible outcomes:
+### Algorithm
 
-- If the linked list doesn’t have a cycle in it, the fast pointer will reach the end of the linked list before the slow pointer to reveal that there is no cycle.
-- If the linked list doesn’t have a cycle in it, the fast pointer will eventually catch up with the slow pointer after making a full cycle pass.
+1. Use slow/fast pointers to find meeting point in cycle
+2. From meeting point, traverse the cycle counting steps
+3. When we return to meeting point, the count equals cycle length
 
-Complexity analysis:
+### Complexity Analysis
 
-- Time complexity: O(N)
-- Space complexity: O(1)
-
-```python
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
-
-def hasCycle(head: Optional[ListNode]) -> bool:
-    slow = head
-    fast = head
-    
-    while fast is not None and fast.next is not None:
-        slow = slow.next
-        fast = fast.next.next
-        
-        if slow == fast:
-            return True
-    
-    return False
-```
-
-## Similar Problem
-
-Given the head of a singly linked list with a cycle, find the length of the cycle.
-
-### Examples
-
-Example 1:
-
-```plaintext
-Input: 0 ──▶ 1 ──▶ 3 ──▶ (2) ──▶ 4
-                          ▲       │
-                          │       │
-                          │       ▼
-                          └───── (cycle)
-Output: 2
-Explanation: Linked list with a cycle of two nodes
-```
-
-Example 2:
-
-```plaintext
-Input: 0 ──▶ 1 ──▶ 3 ──▶ 2 ──▶ 4 ──▶ null
-Output: 0
-Explanation: Linked list without a cycle
-```
-
-### Solution
-
-We can use the above solution to find the cycle in the linked list. Once the fast and slow pointers meet, we can save the slow pointer and iterate the whole cycle with another pointer until we both pointers catch up again to find the length of the cycle.
-
-Complexity analysis:
-
-- Time complexity: O(N)
-- Space complexity: O(1)
+- **Time Complexity:** $O(n)$ - Each node is visited at most twice
+- **Space Complexity:** $O(1)$ - Only two pointers used regardless of list size
 
 ```python
 class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
-def getLength(pointer: ListNode) -> int:
-    current = pointer.next
-    length = 1
+class Solution:
+    def getCycleLength(self, head: Optional[ListNode]) -> int:
+        current = head.next
+        length = 1
 
-    while current != pointer:
-        current = current.next
-        length += 1
-    
-    return length
+        while current != head:
+            current = current.next
+            length += 1
 
-def calculateCycleLength(head: Optional[ListNode]) -> bool:
-    slow = head
-    fast = head
-    
-    while fast is not None and fast.next is not None:
-        slow = slow.next
-        fast = fast.next.next
-        
-        if slow == fast:
-            return cycleLength(slow)
+        return length
 
-    return 0
+    def calculateCycleLength(self, head: Optional[ListNode]) -> int:
+        slow = head
+        fast = head
+
+        while fast is not None and fast.next is not None:
+            slow = slow.next
+            fast = fast.next.next
+
+            if slow == fast:
+                return self.getCycleLength(slow)
+
+        return 0
 ```
