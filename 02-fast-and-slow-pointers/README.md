@@ -9,7 +9,7 @@ The Fast & Slow Pointers pattern (also known as the Hare & Tortoise algorithm) u
 
 > Core idea: At any time, the fast pointer has traveled twice the distance of the slow pointer.
 
-## Core Invariant
+## Core Technique
 
 **Mental model:**
 

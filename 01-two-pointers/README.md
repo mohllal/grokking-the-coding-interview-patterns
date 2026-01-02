@@ -8,7 +8,7 @@ Instead of using nested loops with time complexity $O(n^2)$, two pointers can of
 
 > Core idea: Each pointer moves at most $n$ times.
 
-## Common Variants
+## Variations
 
 ### 1. Converging Pointers (Opposite Ends)
 
