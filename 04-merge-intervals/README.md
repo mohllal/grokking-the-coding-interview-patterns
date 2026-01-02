@@ -14,8 +14,6 @@ Given two intervals (`a` and `b`), there will be six different ways the two inte
    1. `a` fully overlaps `b`, `a.start <= b.start` and `a.end >= b.end` (diagram 3).
    2. `b` fully overlaps `a`, `b.start <= a.start` and `b.end >= a.end` (diagram 5).
 
-![Pattern: Merge Intervals](../images/pattern-merge-intervals.png)
-
 _Credit: [Coding Interview Pattern: Merge Interval](https://medium.com/codex/grokking-the-coding-interview-pattern-merge-interval-6e6b1e9e038c)_
 
 ## Problems
