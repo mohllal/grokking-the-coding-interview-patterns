@@ -53,16 +53,16 @@ This repository contains my solutions and notes for the Design Gurus's [Grokking
 
 ### In-Place Reversal of a Linked List
 
-1. [Reverse a Linked List](./05-in-place-reversal-of-a-linked-list/01-reverse-a-linked-list.md)
-2. [Reverse a Sub-List](./05-in-place-reversal-of-a-linked-list/02-reverse-a-sub-list.md)
-3. [Reverse Every K-element Sub-List](./05-in-place-reversal-of-a-linked-list/03-reverse-every-k-element-sub-list.md)
-4. [Reverse Alternating K-element Sub-List](./05-in-place-reversal-of-a-linked-list/04-reverse-alternating-k-element-sub-list.md)
-5. [Rotate a Linked List](./05-in-place-reversal-of-a-linked-list/05-rotate-a-linked-list.md)
+1. [Reverse a Linked List](./06-in-place-reversal-of-a-linked-list/01-reverse-a-linked-list.md)
+2. [Reverse a Sub-List](./06-in-place-reversal-of-a-linked-list/02-reverse-a-sub-list.md)
+3. [Reverse Every K-element Sub-List](./06-in-place-reversal-of-a-linked-list/03-reverse-every-k-element-sub-list.md)
+4. [Reverse Alternating K-element Sub-List](./06-in-place-reversal-of-a-linked-list/04-reverse-alternating-k-element-sub-list.md)
+5. [Rotate a Linked List](./06-in-place-reversal-of-a-linked-list/05-rotate-a-linked-list.md)
 
 ### Two Heaps
 
-1. [Find the Median of a Number Stream](./06-two-heaps/01-find-the-median-of-a-number-stream.md)
-2. [Sliding Window Median](./06-two-heaps/02-sliding-window-median.md)
+1. [Find the Median of a Number Stream](./15-two-heaps/01-find-the-median-of-a-number-stream.md)
+2. [Sliding Window Median](./15-two-heaps/02-sliding-window-median.md)
 
 ## Extra Material
 
