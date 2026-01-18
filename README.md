@@ -4,7 +4,7 @@ This repository contains my solutions and notes for the Design Gurus's [Grokking
 
 ## Patterns
 
-### Two Pointers
+### Pattern 1: Two Pointers
 
 1. [Pair with Target Sum](./01-two-pointers/01-pair-with-target-sum.md)
 2. [Remove Duplicates](./01-two-pointers/02-remove-duplicates.md)
@@ -17,7 +17,7 @@ This repository contains my solutions and notes for the Design Gurus's [Grokking
 9. [Comparing Strings Containing Backspaces](./01-two-pointers/09-comparing-strings-containing-backspaces.md)
 10. [Minimum Window Sort](./01-two-pointers/10-minimum-window-sort.md)
 
-### Fast and Slow Pointers
+### Pattern 2: Fast and Slow Pointers
 
 1. [Linked List Cycle](./02-fast-and-slow-pointers/01-linked-list-cycle.md)
 2. [Start of Linked List Cycle](./02-fast-and-slow-pointers/02-start-of-linked-list-cycle.md)
@@ -27,7 +27,7 @@ This repository contains my solutions and notes for the Design Gurus's [Grokking
 6. [Rearrange a Linked List](./02-fast-and-slow-pointers/06-rearrange-a-linked-list.md)
 7. [Cycle in a Circular Array](./02-fast-and-slow-pointers/07-cycle-in-a-circular-array.md)
 
-### Sliding Window
+### Pattern 3: Sliding Window
 
 1. [Maximum Sum Subarray of Size K](./03-sliding-window/01-maximum-sum-subarray-of-size-k.md)
 2. [Smallest Subarray with a Given Sum](./03-sliding-window/02-smallest-subarray-with-a-given-sum.md)
@@ -41,7 +41,7 @@ This repository contains my solutions and notes for the Design Gurus's [Grokking
 10. [Smallest Window Containing Substring](./03-sliding-window/10-smallest-window-containing-substring.md)
 11. [Words Concatenation](./03-sliding-window/11-words-concatenation.md)
 
-### Merge Intervals
+### Pattern 4: Merge Intervals
 
 1. [Merge Intervals](./04-merge-intervals/01-merge-intervals.md)
 2. [Insert Interval](./04-merge-intervals/02-insert-interval.md)
@@ -51,7 +51,11 @@ This repository contains my solutions and notes for the Design Gurus's [Grokking
 6. [Maximum CPU Load](./04-merge-intervals/06-maximum-cpu-load.md)
 7. [Employee Free Time](./04-merge-intervals/07-employee-free-time.md)
 
-### In-Place Reversal of a Linked List
+### Pattern 5: Cyclic Sort
+
+To be added.
+
+### Pattern 6: In-Place Reversal of a Linked List
 
 1. [Reverse a Linked List](./06-in-place-reversal-of-a-linked-list/01-reverse-a-linked-list.md)
 2. [Reverse a Sub-List](./06-in-place-reversal-of-a-linked-list/02-reverse-a-sub-list.md)
@@ -59,7 +63,16 @@ This repository contains my solutions and notes for the Design Gurus's [Grokking
 4. [Reverse Alternating K-element Sub-List](./06-in-place-reversal-of-a-linked-list/04-reverse-alternating-k-element-sub-list.md)
 5. [Rotate a Linked List](./06-in-place-reversal-of-a-linked-list/05-rotate-a-linked-list.md)
 
-### Two Heaps
+### Pattern 7: Stacks
+
+1. [Balanced Parentheses](./07-stacks/01-balanced-parentheses.md)
+2. [Reverse a String Using Stack](./07-stacks/02-reverse-a-string-using-stack.md)
+3. [Decimal to Binary Conversion](./07-stacks/03-decimal-to-binary-conversion.md)
+4. [Next Greater Element](./07-stacks/04-next-greater-element.md)
+5. [Sort a Stack](./07-stacks/05-sort-a-stack.md)
+6. [Simplify Path](./07-stacks/06-simplify-path.md)
+
+### Pattern 15: Two Heaps
 
 1. [Find the Median of a Number Stream](./15-two-heaps/01-find-the-median-of-a-number-stream.md)
 2. [Sliding Window Median](./15-two-heaps/02-sliding-window-median.md)
