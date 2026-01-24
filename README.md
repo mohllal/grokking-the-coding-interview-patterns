@@ -53,7 +53,14 @@ This repository contains my solutions and notes for the Design Gurus's [Grokking
 
 ### Pattern 5: Cyclic Sort
 
-To be added.
+1. [Cyclic Sort](./05-cyclic-sort/01-cyclic-sort.md)
+2. [Missing Number](./05-cyclic-sort/02-find-the-missing-number.md)
+3. [Find All Numbers Disappeared in an Array](./05-cyclic-sort/03-find-all-missing-numbers.md)
+4. [Find the Duplicate Number](./05-cyclic-sort/04-find-the-duplicate-number.md)
+5. [Find All Duplicates in an Array](./05-cyclic-sort/05-find-all-duplicate-numbers.md)
+6. [Find the Corrupt Pair](./05-cyclic-sort/06-find-the-corrupt-pair.md)
+7. [First Missing Positive](./05-cyclic-sort/07-find-the-first-missing-positive-number.md)
+8. [First K Missing Positive Numbers](./05-cyclic-sort/08-find%20the-first-K-missing-positive-numbers.md)
 
 ### Pattern 6: In-Place Reversal of a Linked List
 
